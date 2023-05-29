@@ -90,7 +90,10 @@
       messages.innerHTML += `<p>You: ${userInput}</p>`;
 
       // Get AI response
-      const aiResponse = net.run(userInput);
+      let aiResponse = net.run(userInput);
+      if(aiResponse === "" || aiResponse === " ") {
+        aiResponse = "idk"
+      }
 
       // Add AI response to the chat
       messages.innerHTML += `<p class="user">AI: ${aiResponse}</p>`;
