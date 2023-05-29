@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Satti Ai</title>
+  </head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+      margin: 0;
+      padding: 20px;
+    }
+
+    #chat {
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #messages {
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      width: 70%;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    p.user {
+      color: #1e88e5;
+      margin-bottom: 5px;
+    }
+
+    p.ai {
+      color: #757575;
+      margin-bottom: 5px;
+    }
+  </style>
+  <script src="https://unpkg.com/brain.js"></script>
+  <script>
+    // Define the training data
+    const trainingData = [
+      { input: 'hi', output: 'Hi bro, I am satti' },
+      { input: 'how are you?', output: `I'm fine bro` },
+      { input: 'what is your name?', output: "thamuseta eka adala na ne" },
+      { input: 'default', output: `Thats called balu wada.` }
+    ];
+
+    // Create a new neural network
+    const net = new brain.recurrent.LSTM();
+
+    // Train the neural network
+    net.train(trainingData, { iterations: 200 });
+
+    // Function to send a message
+    function sendMessage() {
+      const input = document.getElementById('input');
+      const messages = document.getElementById('messages');
+
+      // Get user input
+      const userInput = input.value;
+      input.value = '';
+
+      // Add user message to the chat
+      messages.innerHTML += `<p>You: ${userInput}</p>`;
+
+      // Get AI response
+      const aiResponse = net.run(userInput);
+
+      // Add AI response to the chat
+      messages.innerHTML += `<p class="user">AI: ${aiResponse}</p>`;
+    }
+  </script>
+  <body>
+
+    <div id="chat">
+      <div id="messages"></div>
+      <input type="text" id="input" placeholder="Type a message..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+
+    
+  </body>
+</html>
