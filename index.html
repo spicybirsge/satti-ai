@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Satti Ai</title>
+    <script src="https://unpkg.com/brain.js"></script>
   </head>
   <style>
     body {
@@ -57,7 +58,17 @@
       margin-bottom: 5px;
     }
   </style>
-  <script src="https://unpkg.com/brain.js"></script>
+    <body>
+
+    <div id="chat">
+      <div id="messages"></div>
+      <input type="text" id="input" placeholder="Type a message..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+
+    
+  </body>
+  
   <script>
     // Define the training data
     const trainingData = [
@@ -88,7 +99,7 @@
     const net = new brain.recurrent.LSTM();
 
     // Train the neural network
-    net.train(trainingData, { iterations: 200 });
+    net.train(trainingData, { iterations: 250 });
 
     // Function to send a message
     function sendMessage() {
@@ -103,23 +114,14 @@
       messages.innerHTML += `<p>You: ${userInput}</p>`;
 
       // Get AI response
-      let aiResponse = net.run(userInput);
+      let aiResponse = net.run(userInput.toLowerCase());
       if(aiResponse === "" || aiResponse === " ") {
-        aiResponse = "idk"
+        aiResponse = "I'm sorry bro, but I don't understand."
       }
 
       // Add AI response to the chat
       messages.innerHTML += `<p class="user">AI: ${aiResponse}</p>`;
     }
   </script>
-  <body>
 
-    <div id="chat">
-      <div id="messages"></div>
-      <input type="text" id="input" placeholder="Type a message..." />
-      <button onclick="sendMessage()">Send</button>
-    </div>
-
-    
-  </body>
 </html>
